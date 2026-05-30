@@ -1,0 +1,463 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="PivotMoney – Premium Financial Portfolio Dashboard" />
+  <meta name="theme-color" content="#080C14" />
+  <title>PivotMoney – Portfolio Dashboard</title>
+
+  <!-- Google Fonts: Figtree + Inter Tight -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Figtree:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,400&family=Inter+Tight:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,400&display=swap" rel="stylesheet" />
+
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+
+  <!-- ═══════════════════════════════════════════════════════════
+       TOP NAVIGATION BAR
+  ═══════════════════════════════════════════════════════════ -->
+  <header class="navbar" id="navbar">
+    <div class="navbar-inner">
+
+      <!-- Logo -->
+      <a class="navbar-logo" href="#dashboard" aria-label="PivotMoney Home">
+        <span class="logo-icon">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M 7.5 3 A 4.5 4.5 0 0 0 3 7.5 L 3 16.5 A 4.5 4.5 0 0 0 7.5 21 L 7.5 16 L 11 12.5 L 9.5 11 L 7.5 13 L 7.5 3 Z" fill="currentColor" />
+            <path d="M 7.5 3 A 4.5 4.5 0 0 0 3 7.5 L 3 16.5 A 4.5 4.5 0 0 0 7.5 21 L 7.5 16 L 11 12.5 L 9.5 11 L 7.5 13 L 7.5 3 Z" fill="currentColor" transform="rotate(180 12 12)" />
+          </svg>
+        </span>
+        <span class="logo-text">Pivot Money</span>
+      </a>
+
+      <!-- Nav Tabs -->
+      <nav class="navbar-nav" role="navigation" aria-label="Main navigation">
+        <a class="nav-tab active" data-tab="dashboard" href="#dashboard">
+          <svg class="nav-icon" viewBox="0 0 20 20" fill="currentColor"><path d="M3 4a1 1 0 011-1h4a1 1 0 011 1v4a1 1 0 01-1 1H4a1 1 0 01-1-1V4zm0 8a1 1 0 011-1h4a1 1 0 011 1v4a1 1 0 01-1 1H4a1 1 0 01-1-1v-4zm8-8a1 1 0 011-1h4a1 1 0 011 1v4a1 1 0 01-1 1h-4a1 1 0 01-1-1V4zm0 8a1 1 0 011-1h4a1 1 0 011 1v4a1 1 0 01-1 1h-4a1 1 0 01-1-1v-4z"/></svg>
+          Dashboard
+        </a>
+        <a class="nav-tab" data-tab="holdings" href="#holdings">
+          <svg class="nav-icon" viewBox="0 0 20 20" fill="currentColor"><path d="M2 11a1 1 0 011-1h2a1 1 0 011 1v5a1 1 0 01-1 1H3a1 1 0 01-1-1v-5zm6-4a1 1 0 011-1h2a1 1 0 011 1v9a1 1 0 01-1 1H9a1 1 0 01-1-1V7zm6-3a1 1 0 011-1h2a1 1 0 011 1v12a1 1 0 01-1 1h-2a1 1 0 01-1-1V4z"/></svg>
+          Holdings
+        </a>
+        <a class="nav-tab" data-tab="statements" href="#statements">
+          <svg class="nav-icon" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M4 4a2 2 0 012-2h4.586A2 2 0 0112 2.586L15.414 6A2 2 0 0116 7.414V16a2 2 0 01-2 2H6a2 2 0 01-2-2V4zm2 6a1 1 0 011-1h6a1 1 0 110 2H7a1 1 0 01-1-1zm1 3a1 1 0 100 2h6a1 1 0 100-2H7z" clip-rule="evenodd"/></svg>
+          Statements
+        </a>
+        <a class="nav-tab" data-tab="portfolio" href="#portfolio">
+          <svg class="nav-icon" viewBox="0 0 20 20" fill="currentColor"><path d="M10 2a6 6 0 100 12A6 6 0 0010 2zm0 2a4 4 0 110 8 4 4 0 010-8zm0 1a3 3 0 100 6 3 3 0 000-6zm.75 1.5a.75.75 0 00-1.5 0V8h-1.5a.75.75 0 000 1.5H9.25v1.5a.75.75 0 001.5 0V9.5h1.5a.75.75 0 000-1.5h-1.5V6.5zM2 15a1 1 0 011-1h14a1 1 0 110 2H3a1 1 0 01-1-1z"/></svg>
+          Portfolio
+        </a>
+      </nav>
+
+      <!-- Right controls -->
+      <div class="navbar-actions">
+        <div class="api-status" id="apiStatus" title="API Connection Status">
+          <span class="status-dot" id="statusDot"></span>
+          <span class="status-label" id="statusLabel">Connecting…</span>
+        </div>
+        <button class="btn btn-primary btn-sm" id="navUploadBtn">
+          <svg viewBox="0 0 20 20" fill="currentColor" width="16" height="16"><path fill-rule="evenodd" d="M3 17a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM6.293 6.707a1 1 0 010-1.414l3-3a1 1 0 011.414 0l3 3a1 1 0 01-1.414 1.414L11 5.414V13a1 1 0 11-2 0V5.414L7.707 6.707a1 1 0 01-1.414 0z" clip-rule="evenodd"/></svg>
+          Upload
+        </button>
+      </div>
+
+    </div>
+  </header>
+
+  <!-- ═══════════════════════════════════════════════════════════
+       MAIN CONTENT
+  ═══════════════════════════════════════════════════════════ -->
+  <main class="main-content">
+
+    <!-- ─── TAB: DASHBOARD ─────────────────────────────────── -->
+    <section class="tab-panel active" id="tab-dashboard" data-panel="dashboard">
+
+      <!-- Upload Section -->
+      <div class="section-header">
+        <div>
+          <h1 class="section-title">Dashboard</h1>
+          <p class="section-subtitle">Upload your brokerage statements to track your portfolio in real‑time.</p>
+        </div>
+        <div class="account-select-wrap" id="dashboardAccountSelectWrap" hidden>
+          <select class="filter-select" id="dashboardAccountSelect">
+            <option value="">All Accounts</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="upload-container" id="uploadContainer">
+        <div class="upload-zone" id="uploadZone" role="button" tabindex="0" aria-label="Upload PDF statement">
+          <div class="upload-zone-glow"></div>
+          <div class="upload-icon-wrap">
+            <svg class="upload-icon" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <circle cx="32" cy="32" r="32" fill="rgba(255,255,255,0.04)"/>
+              <path d="M32 42V26M32 26L26 32M32 26L38 32" stroke="#FFFFFF" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+              <path d="M22 44h20" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round" opacity="0.5"/>
+              <path d="M20 36c-3.3 0-6-2.7-6-6s2.7-6 6-6c.4 0 .8 0 1.2.1C22.3 21.3 25.9 19 30 19c4.4 0 8.2 2.6 10 6.4.3 0 .7-.1 1-.1 3.9 0 7 3.1 7 7 0 3.6-2.7 6.5-6.2 6.9" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" opacity="0.6"/>
+            </svg>
+          </div>
+          <div class="upload-text">
+            <p class="upload-title">Drop your brokerage statement here</p>
+            <p class="upload-hint">Supports PDF files up to 50 MB · All major brokers supported</p>
+          </div>
+          <label class="btn btn-secondary upload-btn" for="fileInput">
+            <svg viewBox="0 0 20 20" fill="currentColor" width="16" height="16"><path fill-rule="evenodd" d="M3 17a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM6.293 6.707a1 1 0 010-1.414l3-3a1 1 0 011.414 0l3 3a1 1 0 01-1.414 1.414L11 5.414V13a1 1 0 11-2 0V5.414L7.707 6.707a1 1 0 01-1.414 0z" clip-rule="evenodd"/></svg>
+            Choose File
+          </label>
+          <input type="file" id="fileInput" accept=".pdf,application/pdf" class="file-input-hidden" aria-hidden="true" />
+        </div>
+
+        <!-- Progress bar -->
+        <div class="upload-progress-wrap" id="uploadProgressWrap" hidden>
+          <div class="upload-progress-header">
+            <span class="upload-filename" id="uploadFilename">—</span>
+            <span class="upload-pct" id="uploadPct">0%</span>
+          </div>
+          <div class="progress-track">
+            <div class="progress-bar" id="uploadProgressBar" style="width:0%"></div>
+          </div>
+          <p class="upload-status-msg" id="uploadStatusMsg">Uploading…</p>
+        </div>
+      </div>
+
+      <!-- Portfolio Summary Cards -->
+      <div class="summary-grid" id="summaryGrid">
+
+        <div class="summary-card" id="cardTotalValue">
+          <div class="card-icon-wrap" style="--icon-color:#00D4AA">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6"/></svg>
+          </div>
+          <div class="card-body">
+            <p class="card-label">Total Portfolio Value</p>
+            <p class="card-value skeleton" id="valTotalValue">—</p>
+            <p class="card-meta" id="metaTotalValue">&nbsp;</p>
+          </div>
+        </div>
+
+
+        <div class="summary-card" id="cardHoldings">
+          <div class="card-icon-wrap" style="--icon-color:#6366F1">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+          </div>
+          <div class="card-body">
+            <p class="card-label">Total Holdings</p>
+            <p class="card-value skeleton" id="valHoldings">—</p>
+            <p class="card-meta" id="metaHoldings">&nbsp;</p>
+          </div>
+        </div>
+
+        <div class="summary-card" id="cardAccounts">
+          <div class="card-icon-wrap" style="--icon-color:#F59E0B">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 7H4a2 2 0 00-2 2v6a2 2 0 002 2h16a2 2 0 002-2V9a2 2 0 00-2-2z"/><path d="M16 14a2 2 0 100-4 2 2 0 000 4zM8 14h.01"/></svg>
+          </div>
+          <div class="card-body">
+            <p class="card-label">Accounts</p>
+            <p class="card-value skeleton" id="valAccounts">—</p>
+            <p class="card-meta" id="metaAccounts">&nbsp;</p>
+          </div>
+        </div>
+
+      </div><!-- /summary-grid -->
+
+      <!-- Asset Allocation Chart -->
+      <div class="section-row">
+        <div class="glass-card allocation-card">
+          <div class="card-header">
+            <h2 class="card-title">Asset Allocation</h2>
+            <span class="card-badge">By Market Value</span>
+          </div>
+          <div class="donut-wrap" id="donutWrap">
+            <div id="donutChart" class="donut-chart-container">
+              <div class="chart-placeholder">
+                <svg viewBox="0 0 120 120" width="120" height="120" class="placeholder-ring">
+                  <circle cx="60" cy="60" r="48" stroke="rgba(255,255,255,0.05)" stroke-width="20" fill="none"/>
+                </svg>
+                <p>Upload a statement<br/>to see allocation</p>
+              </div>
+            </div>
+            <div class="donut-legend" id="donutLegend"></div>
+          </div>
+        </div>
+
+        <!-- Quick Stats -->
+        <div class="glass-card activity-card">
+          <div class="card-header">
+            <h2 class="card-title">Recent Activity</h2>
+            <span class="card-badge">Broker Transactions</span>
+          </div>
+          <div class="activity-table-wrap">
+            <table class="activity-table" id="activityTable">
+              <thead>
+                <tr>
+                  <th>Date</th>
+                  <th>Type</th>
+                  <th>Description</th>
+                  <th class="num-col">Qty</th>
+                  <th class="num-col">Rate</th>
+                  <th class="num-col">Amount</th>
+                </tr>
+              </thead>
+              <tbody id="activityBody">
+                <tr class="empty-state-row">
+                  <td colspan="6">
+                    <div class="empty-state" style="padding: 2rem 0;">
+                      <p>No activity yet.<br/>Upload a brokerage statement to see transaction history.</p>
+                    </div>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+    </section>
+    <!-- /tab-dashboard -->
+
+    <!-- ─── TAB: HOLDINGS ──────────────────────────────────── -->
+    <section class="tab-panel" id="tab-holdings" data-panel="holdings" hidden>
+
+      <div class="section-header">
+        <div>
+          <h1 class="section-title">Holdings</h1>
+          <p class="section-subtitle">All positions across your uploaded statements.</p>
+        </div>
+        <div class="account-select-wrap" id="holdingsAccountSelectWrap" hidden>
+          <select class="filter-select" id="holdingsAccountSelect">
+            <option value="">All Accounts</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- Table Controls -->
+      <div class="table-controls glass-card">
+        <div class="table-controls-left">
+          <div class="search-wrap">
+            <svg class="search-icon" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clip-rule="evenodd"/></svg>
+            <input class="search-input" type="search" id="holdingSearch" placeholder="Search by name or ticker…" autocomplete="off" />
+          </div>
+          <select class="filter-select" id="typeFilter">
+            <option value="">All Types</option>
+            <option value="Stock">Stock</option>
+            <option value="ETF">ETF</option>
+            <option value="Bond">Bond</option>
+            <option value="Cash">Cash</option>
+            <option value="Mutual Fund">Mutual Fund</option>
+            <option value="Option">Option</option>
+            <option value="Other">Other</option>
+          </select>
+          <select class="filter-select" id="statementFilter">
+            <option value="">All Statements</option>
+          </select>
+        </div>
+        <div class="table-controls-right">
+          <span class="results-count" id="resultsCount">0 holdings</span>
+          <button class="btn btn-ghost btn-sm" id="exportCsvBtn">
+            <svg viewBox="0 0 20 20" fill="currentColor" width="16" height="16"><path fill-rule="evenodd" d="M3 17a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm3.293-7.707a1 1 0 011.414 0L9 10.586V3a1 1 0 112 0v7.586l1.293-1.293a1 1 0 111.414 1.414l-3 3a1 1 0 01-1.414 0l-3-3a1 1 0 010-1.414z" clip-rule="evenodd"/></svg>
+            Export CSV
+          </button>
+        </div>
+      </div>
+
+      <!-- Table -->
+      <div class="glass-card table-card">
+        <div class="table-scroll-wrap">
+          <table class="holdings-table" id="holdingsTable">
+            <thead>
+              <tr>
+                <th class="sortable" data-col="asset_name">Asset Name <span class="sort-icon">↕</span></th>
+                <th class="sortable" data-col="ticker">Ticker <span class="sort-icon">↕</span></th>
+                <th>Type</th>
+                <th class="sortable num-col" data-col="quantity">Qty <span class="sort-icon">↕</span></th>
+                <th class="sortable num-col" data-col="current_price">Price <span class="sort-icon">↕</span></th>
+                <th class="sortable num-col" data-col="market_value">Market Value <span class="sort-icon">↕</span></th>
+                <th class="sortable num-col" data-col="cost_basis">Cost Basis <span class="sort-icon">↕</span></th>
+                <th class="sortable num-col" data-col="unrealized_gl">Unrealized G/L <span class="sort-icon">↕</span></th>
+                <th class="sortable num-col" data-col="weight_pct">Weight % <span class="sort-icon">↕</span></th>
+              </tr>
+            </thead>
+            <tbody id="holdingsBody">
+              <tr class="empty-state-row">
+                <td colspan="9">
+                  <div class="empty-state">
+                    <svg viewBox="0 0 64 64" fill="none" width="56" height="56"><circle cx="32" cy="32" r="30" stroke="rgba(255,255,255,0.07)" stroke-width="2"/><path d="M22 32h20M22 24h12M22 40h16" stroke="rgba(255,255,255,0.2)" stroke-width="2" stroke-linecap="round"/></svg>
+                    <p>No holdings yet.<br/>Upload a brokerage statement to get started.</p>
+                  </div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <!-- Pagination -->
+        <div class="pagination" id="pagination">
+          <button class="page-btn" id="prevPage" disabled>
+            <svg viewBox="0 0 20 20" fill="currentColor" width="16" height="16"><path fill-rule="evenodd" d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z" clip-rule="evenodd"/></svg>
+          </button>
+          <div class="page-numbers" id="pageNumbers"></div>
+          <button class="page-btn" id="nextPage" disabled>
+            <svg viewBox="0 0 20 20" fill="currentColor" width="16" height="16"><path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd"/></svg>
+          </button>
+        </div>
+      </div>
+
+    </section>
+    <!-- /tab-holdings -->
+
+    <!-- ─── TAB: STATEMENTS ────────────────────────────────── -->
+    <section class="tab-panel" id="tab-statements" data-panel="statements" hidden>
+
+      <div class="section-header">
+        <div>
+          <h1 class="section-title">Statements</h1>
+          <p class="section-subtitle">Manage your uploaded brokerage statements.</p>
+        </div>
+        <button class="btn btn-primary" id="stmtUploadBtn">
+          <svg viewBox="0 0 20 20" fill="currentColor" width="16" height="16"><path fill-rule="evenodd" d="M3 17a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM6.293 6.707a1 1 0 010-1.414l3-3a1 1 0 011.414 0l3 3a1 1 0 01-1.414 1.414L11 5.414V13a1 1 0 11-2 0V5.414L7.707 6.707a1 1 0 01-1.414 0z" clip-rule="evenodd"/></svg>
+          Upload Statement
+        </button>
+      </div>
+
+      <div class="statements-grid" id="statementsGrid">
+        <div class="empty-state-card">
+          <div class="empty-state">
+            <svg viewBox="0 0 64 64" fill="none" width="56" height="56"><rect x="12" y="8" width="40" height="48" rx="4" stroke="rgba(255,255,255,0.1)" stroke-width="2"/><path d="M20 20h24M20 28h24M20 36h16" stroke="rgba(255,255,255,0.15)" stroke-width="2" stroke-linecap="round"/></svg>
+            <p>No statements uploaded yet.<br/>Click <strong>Upload Statement</strong> to get started.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Parse Logs Panel -->
+      <div class="logs-panel glass-card" id="logsPanel">
+        <button class="logs-toggle" id="logsToggle" aria-expanded="false">
+          <span class="logs-toggle-label">
+            <svg viewBox="0 0 20 20" fill="currentColor" width="18" height="18"><path fill-rule="evenodd" d="M3 5a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 10a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 15a1 1 0 011-1h6a1 1 0 110 2H4a1 1 0 01-1-1z" clip-rule="evenodd"/></svg>
+            Parse Logs
+          </span>
+          <span class="log-badge" id="logCount">0</span>
+          <svg class="chevron-icon" viewBox="0 0 20 20" fill="currentColor" width="16" height="16"><path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"/></svg>
+        </button>
+        <div class="logs-body" id="logsBody" hidden>
+          <div class="logs-toolbar">
+            <span class="logs-stmt-label" id="logsStmtLabel">Select a statement to view logs</span>
+            <button class="btn btn-ghost btn-xs" id="clearLogsView">Clear View</button>
+          </div>
+          <div class="log-entries" id="logEntries">
+            <div class="log-entry log-info">
+              <span class="log-level-icon">ℹ️</span>
+              <span class="log-msg">Select a statement above to view its parse logs.</span>
+              <span class="log-ts">—</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </section>
+    <!-- /tab-statements -->
+
+    <!-- ─── TAB: PORTFOLIO ─────────────────────────────────── -->
+    <section class="tab-panel" id="tab-portfolio" data-panel="portfolio" hidden>
+
+      <div class="section-header">
+        <div>
+          <h1 class="section-title">Portfolio</h1>
+          <p class="section-subtitle">Detailed breakdown of your portfolio composition.</p>
+        </div>
+        <div class="account-select-wrap" id="portfolioAccountSelectWrap" hidden>
+          <select class="filter-select" id="portfolioAccountSelect">
+            <option value="">All Accounts</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="section-row">
+        <div class="glass-card allocation-detail-card">
+          <div class="card-header">
+            <h2 class="card-title">Allocation by Type</h2>
+          </div>
+          <div id="allocationTable" class="allocation-table-wrap">
+            <div class="empty-state" style="padding:2rem 0">
+              <p>Upload a statement to see allocation details.</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="glass-card top-holdings-card">
+          <div class="card-header">
+            <h2 class="card-title">Top 10 Holdings</h2>
+          </div>
+          <div id="topHoldingsList" class="top-holdings-list">
+            <div class="empty-state" style="padding:2rem 0">
+              <p>No data available yet.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </section>
+    <!-- /tab-portfolio -->
+
+  </main>
+
+  <!-- ═══════════════════════════════════════════════════════════
+       FOOTER
+  ═══════════════════════════════════════════════════════════ -->
+  <footer class="site-footer">
+    <div class="footer-inner">
+      <span class="footer-logo">Pivot Money</span>
+      <span class="footer-sep">·</span>
+      <span class="footer-copy">Premium Portfolio Intelligence</span>
+      <span class="footer-sep">·</span>
+      <span class="footer-version">v1.0.0</span>
+    </div>
+  </footer>
+
+  <!-- ═══════════════════════════════════════════════════════════
+       TOAST CONTAINER
+  ═══════════════════════════════════════════════════════════ -->
+  <div class="toast-container" id="toastContainer" aria-live="polite" aria-atomic="true"></div>
+
+  <!-- ═══════════════════════════════════════════════════════════
+       MODAL: Statement Detail
+  ═══════════════════════════════════════════════════════════ -->
+  <div class="modal-backdrop" id="modalBackdrop" hidden>
+    <div class="modal" id="stmtModal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+      <div class="modal-header">
+        <h3 class="modal-title" id="modalTitle">Statement Detail</h3>
+        <button class="modal-close" id="modalClose" aria-label="Close">&times;</button>
+      </div>
+      <div class="modal-body" id="modalBody">
+        <!-- Populated dynamically -->
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-ghost" id="modalCloseBtn">Close</button>
+        <button class="btn btn-primary" id="modalViewHoldings">View Holdings</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════════════════
+       CONFIRM DIALOG
+  ═══════════════════════════════════════════════════════════ -->
+  <div class="modal-backdrop" id="confirmBackdrop" hidden>
+    <div class="modal confirm-modal" role="alertdialog" aria-modal="true">
+      <div class="modal-header">
+        <h3 class="modal-title">Confirm Delete</h3>
+      </div>
+      <div class="modal-body">
+        <p id="confirmMsg">Are you sure you want to delete this statement? This action cannot be undone.</p>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-ghost" id="confirmCancel">Cancel</button>
+        <button class="btn btn-danger" id="confirmOk">Delete</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="js/app.js"></script>
+</body>
+</html>

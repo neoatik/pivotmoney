@@ -1,0 +1,61 @@
+version: "3.9"
+
+# ============================================================
+# PivotMoney Financial Data Ingestion Engine
+# Docker Compose — full stack
+#
+# Usage:
+#   docker-compose up --build
+#
+# Services:
+#   - backend: FastAPI app on port 8000
+#   - postgres: PostgreSQL 16 on port 5432 (optional if using local PG)
+# ============================================================
+
+services:
+
+  # ─── PostgreSQL Database ────────────────────────────────
+  postgres:
+    image: postgres:16-alpine
+    container_name: pivotmoney_postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: pivotmoney_pass
+      POSTGRES_DB: pivotmoney
+    ports:
+      - "5433:5432"   # Maps to 5433 on host to avoid conflicts with local PG
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d pivotmoney"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # ─── FastAPI Backend ────────────────────────────────────
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: pivotmoney_backend
+    restart: unless-stopped
+    ports:
+      - "8000:8000"
+    environment:
+      DATABASE_URL: postgresql+asyncpg://postgres:pivotmoney_pass@postgres:5432/pivotmoney
+      GEMINI_API_KEY: ${GEMINI_API_KEY:-your_gemini_api_key_here}
+      DEBUG: "true"
+      UPLOAD_DIR: /app/uploads
+    volumes:
+      - ./backend:/app          # Hot reload during development
+      - uploads_data:/app/uploads
+      - ./frontend:/app/frontend  # Serve frontend from backend
+    depends_on:
+      postgres:
+        condition: service_healthy
+    command: uvicorn app.main:app --host 0.0.0.0 --port 8000 --reload
+
+volumes:
+  postgres_data:
+  uploads_data:
