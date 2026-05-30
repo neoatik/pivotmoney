@@ -87,6 +87,25 @@ Visit: **http://localhost:8000**
 
 > **Note**: Docker Compose maps Postgres to port `5433` on the host to avoid conflicts with your local PostgreSQL installation.
 
+### Standalone Docker Image (Without Compose)
+
+If you wish to build and run the backend image independently (using an external PostgreSQL database), you can do so from the project root:
+
+1. **Build the Docker Image**:
+   ```bash
+   docker build -t pivotmoney-app .
+   ```
+
+2. **Run the Container**:
+   ```bash
+   docker run -p 8000:8000 \
+     -e GEMINI_API_KEY="your_gemini_api_key_here" \
+     -e DATABASE_URL="postgresql+asyncpg://postgres:password@host:5432/pivotmoney" \
+     pivotmoney-app
+   ```
+
+The container starts the FastAPI application, running migrations and serving the frontend static files globally at `http://localhost:8000`.
+
 ---
 
 ## API Reference
@@ -151,13 +170,13 @@ pivotmoney/
 │   │   └── tasks/             # Background workers
 │   ├── alembic/               # DB migrations
 │   ├── requirements.txt
-│   ├── Dockerfile
 │   └── .env.example
 ├── frontend/
 │   ├── index.html             # Dashboard
 │   ├── css/style.css          # PivotMoney design system
 │   └── js/app.js              # Dashboard logic
 ├── docker-compose.yml
+├── Dockerfile                 # Root Dockerfile
 ├── Pivot_Money_US_Statement.pdf
 └── README.md
 ```
