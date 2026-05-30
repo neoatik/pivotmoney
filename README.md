@@ -2,6 +2,12 @@
 
 A Python/FastAPI system to parse US brokerage statement PDFs, store structured financial data in PostgreSQL, and display a premium portfolio dashboard.
 
+### 🎥 Walkthrough Video
+Watch the full walkthrough covering the PDF upload flow, Gemini AI parsing logs, dynamic per-account scoped filtering, PostgreSQL schema, and containerization:
+👉 **[Loom Walkthrough Video](https://www.loom.com/share/588e48dedaad404c8c64caec6268f853)**
+
+---
+
 ## Features
 
 - **PDF Parsing**: Multi-strategy pipeline (AI → Regex → Fallback)

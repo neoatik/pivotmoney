@@ -861,13 +861,7 @@ function renderHoldingsTable() {
     const qty       = h.quantity;
     const price     = h.current_price;
     const mktVal    = h.market_value;
-    const costBasis = h.cost_basis;
-    const gl        = h.unrealized_gl;
-    const glPct     = h.unrealized_gl_pct ?? h.unrealized_return_pct;
-    const weight    = visibleTotal ? (mktVal / visibleTotal * 100) : 0;
     const badgeClass= typeBadgeClass(type);
-    const glClass   = gl == null ? '' : (gl >= 0 ? 'gl-positive' : 'gl-negative');
-    const glSign    = gl != null && gl > 0 ? '+' : '';
 
     return `
       <tr>
@@ -881,12 +875,6 @@ function renderHoldingsTable() {
         <td class="num-col">${qty != null ? formatNumber(qty) : '—'}</td>
         <td class="num-col">${price != null ? formatCurrency(price) : '—'}</td>
         <td class="num-col">${mktVal != null ? formatCurrency(mktVal) : '—'}</td>
-        <td class="num-col">${costBasis != null ? formatCurrency(costBasis) : '—'}</td>
-        <td class="num-col ${glClass}">
-          ${gl != null ? `${glSign}${formatCurrency(gl)}` : '—'}
-          ${glPct != null ? `<br/><small style="font-size:0.75em;opacity:0.8">${glSign}${Math.abs(glPct).toFixed(2)}%</small>` : ''}
-        </td>
-        <td class="num-col">${weight != null ? `${weight.toFixed(2)}%` : '—'}</td>
       </tr>`;
   }).join('');
 
@@ -1012,9 +1000,8 @@ function exportHoldingsCsv() {
   const items = getFilteredSortedHoldings();
   if (!items.length) { showToast('No data to export.', 'info'); return; }
 
-  const cols = ['asset_name', 'ticker', 'asset_type', 'quantity', 'current_price',
-                 'market_value', 'cost_basis', 'unrealized_gl', 'unrealized_gl_pct', 'weight_pct'];
-  const header = ['Asset Name','Ticker','Type','Quantity','Price','Market Value','Cost Basis','Unrealized G/L','G/L %','Weight %'];
+  const cols = ['asset_name', 'ticker', 'asset_type', 'quantity', 'current_price', 'market_value'];
+  const header = ['Asset Name','Ticker','Type','Quantity','Price','Market Value'];
 
   const rows = items.map(h =>
     cols.map(c => {
